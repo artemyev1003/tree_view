@@ -1,5 +1,6 @@
 import json
 import re
+import os
 import psycopg2
 import time
 from psycopg2 import OperationalError
@@ -129,7 +130,7 @@ def employees_tree_to_cmd(query: list[tuple]):
 def employees_tree_to_html(query: list[tuple]):
     """Receives a list of tuples with company employees data and
     generates an HTML file showing them as a tree structure"""
-    with open('tree.html', 'w') as f:
+    with open('data/tree.html', 'w') as f:
         print('<meta charset="UTF-8">', file=f)
         print('<ul>', file=f)
         for line in query:
@@ -155,7 +156,7 @@ def employees_tree_to_json(query: list[tuple]):
             reduce(dict.get, order[:-1], result)[order[-1]] = {"name": name,
                                                                "position": position.lower(),
                                                                "subordinate": {}}
-    with open('data.json', 'w') as f:
+    with open('data/tree.json', 'w') as f:
         json.dump(result, f, ensure_ascii=False, indent=4)
 
 
@@ -166,6 +167,9 @@ if __name__ == '__main__':
     execute_query(connection, create_table)
 
     q = execute_read_query(connection, get_employees_tree)
+
+    if not os.path.exists('data'):
+        os.mkdir('data')
 
     employees_tree_to_cmd(q)
     employees_tree_to_html(q)
