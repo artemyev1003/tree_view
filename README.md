@@ -10,7 +10,7 @@
 1. Клонируем репозиторий и переходим в директорию проекта
 ```sh
 git clone git@github.com:artemyev1003/tree_view.git
-cd git@github.com:artemyev1003/tree_view.git
+cd tree_view
 ```
 
 2. Собираем образ и запускаем контейнер 
